@@ -167,11 +167,15 @@ class BaseTranslator:
 class GoogleTranslator(BaseTranslator):
     name = "google"
     lang_map = {"zh": "zh-CN"}
+    envs = {
+        "GOOGLE_ENDPOINT": "https://translate.google.com/m",
+    }
 
-    def __init__(self, lang_in, lang_out, model, ignore_cache=False, **kwargs):
+    def __init__(self, lang_in, lang_out, model, envs=None, ignore_cache=False, **kwargs):
+        self.set_envs(envs)
         super().__init__(lang_in, lang_out, model, ignore_cache)
         self.session = requests.Session()
-        self.endpoint = "https://translate.google.com/m"
+        self.endpoint = self.envs["GOOGLE_ENDPOINT"]
         self.headers = {
             "User-Agent": "Mozilla/4.0 (compatible;MSIE 6.0;Windows NT 5.1;SV1;.NET CLR 1.1.4322;.NET CLR 2.0.50727;.NET CLR 3.0.04506.30)"  # noqa: E501
         }

@@ -815,6 +815,7 @@ def setup_gui(
         - None
     """
     user_list, html = parse_user_passwd(auth_file)
+    share = False
     if flag_demo:
         demo.launch(server_name="0.0.0.0", max_file_size="5mb", inbrowser=True)
     else:
