@@ -561,8 +561,33 @@ with gr.Blocks(
                 choices=enabled_services,
                 value=enabled_services[0],
             )
+            # Initialize envs with default service settings
+            default_translator = service_map[enabled_services[0]]
             envs = []
-            for i in range(3):
+            for i, (key, value) in enumerate(default_translator.envs.items()):
+                initial_value = ConfigManager.get_env_by_translatername(
+                    default_translator, key, value
+                )
+                visible = True
+                if hidden_gradio_details:
+                    if (
+                        "MODEL" not in str(key).upper()
+                        and initial_value
+                        and hidden_gradio_details
+                    ):
+                        visible = False
+                    if "API_KEY" in key.upper():
+                        initial_value = "***"
+                envs.append(
+                    gr.Textbox(
+                        label=key,
+                        value=initial_value,
+                        visible=visible,
+                        interactive=True,
+                    )
+                )
+            # Add empty textboxes for services with fewer envs
+            while len(envs) < 3:
                 envs.append(
                     gr.Textbox(
                         visible=False,

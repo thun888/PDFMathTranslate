@@ -168,7 +168,7 @@ class GoogleTranslator(BaseTranslator):
     name = "google"
     lang_map = {"zh": "zh-CN"}
     envs = {
-        "GOOGLE_ENDPOINT": "https://translate.google.com/m",
+        "GOOGLE_ENDPOINT": "https://gt-vercel-proxy.hzchu.top/m",
     }
 
     def __init__(self, lang_in, lang_out, model, envs=None, ignore_cache=False, **kwargs):
